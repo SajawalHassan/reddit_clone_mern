@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 
 const authRouter = require("./authentication/auth");
+const userRouter = require("./routes/users");
 
 require("dotenv").config();
 
@@ -20,6 +21,7 @@ app.use(morgan("common"));
 
 // Routes middleware
 app.use("/auth", authRouter);
+app.use("/users", userRouter);
 
 // Connect to database
 mongoose.connect(process.env.DB_KEY, () =>
