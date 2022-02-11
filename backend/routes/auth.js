@@ -1,13 +1,14 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+const Jwt = require("jsonwebtoken");
 
-const { registerValidation } = require("../utils/validation");
+const { registerValidation, loginValidation } = require("../utils/validation");
 
 router.post("/register", async (req, res) => {
   try {
     // Validating data
-    const { error } = await registerValidation(req.body);
+    const { error } = registerValidation(req.body);
     if (error) {
       return res.status(400).json(error);
     }
@@ -27,6 +28,39 @@ router.post("/register", async (req, res) => {
     const newUser = await user.save();
 
     res.json(newUser);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
+router.post("/login", async (req, res) => {
+  try {
+    // Validating data
+    const { error } = loginValidation(req.body);
+    if (error) {
+      return res.status(400).json(error);
+    }
+
+    // Checking if the email is correct
+    const userEmail = await User.findOne({ email: req.body.email });
+    if (!userEmail) return res.status(400).json("Invalid email or password!");
+
+    // Checking if the password is correct
+    const validPass = await bcrypt.compare(
+      req.body.password,
+      userEmail.password
+    );
+    if (!validPass) return res.status(400).json("Invalid email or password!");
+
+    // Creating and assigning the token
+    const token = Jwt.sign({ _id: userEmail._id }, process.env.TOKEN_SECRET);
+    res.header("auth-token", token).json({
+      name: userEmail.name,
+      email: userEmail.email,
+      karma: userEmail.karma,
+      upVotedPosts: userEmail.upVotedPosts,
+      downVotedPosts: userEmail.downVotedPosts,
+    });
   } catch (err) {
     res.status(400).json(err);
   }

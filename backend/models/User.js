@@ -19,6 +19,14 @@ const userSchema = mongoose.Schema({
     min: 8,
     max: 1024,
   },
+  upVotedPosts: {
+    type: Array,
+    default: [],
+  },
+  downVotedPosts: {
+    type: Array,
+    default: [],
+  },
   karma: {
     type: Number,
     default: 0,
