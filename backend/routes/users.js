@@ -34,4 +34,15 @@ router.put("/edit", verify, async (req, res) => {
   }
 });
 
+router.put("/delete", verify, async (req, res) => {
+  try {
+    // Deleting user
+    await User.findByIdAndDelete(req.user._id);
+
+    res.json("User deleted!");
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
 module.exports = router;
