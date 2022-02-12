@@ -41,19 +41,44 @@ router.put("/edit/:id", verify, async (req, res) => {
   }
 });
 
+router.delete("/delete/:id", verify, async (req, res) => {
+  try {
+    // Deleting subreddit
+    await Subreddit.findByIdAndDelete(req.params.id);
+
+    res.json("Subreddit deleted");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 router.put("/join/:id", verify, async (req, res) => {
   try {
-    // Joining subreddit
-    await Subreddit.findByIdAndUpdate(req.params.id, {
-      $set: { joinedMembers: req.user._id },
-    });
+    // Getting subreddit
+    const subreddit = await Subreddit.findById(req.params.id);
 
-    // Adding subreddit id to users joined subreddits
-    await User.findByIdAndUpdate(req.user._id, {
-      $set: { joinedSubreddits: req.params.id },
-    });
+    // Checking if the user is already joined
+    if (!subreddit.joinedMembers.includes(req.user._id)) {
+      // Adding user id to joined member
+      await subreddit.updateOne({ $push: { joinedMembers: req.user._id } });
 
-    res.json("User joined!");
+      // Adding subreddit to users joined subreddit
+      await User.findByIdAndUpdate(req.user._id, {
+        $push: { joinedSubreddits: subreddit._id },
+      });
+
+      res.json(`User has joined subreddit r/${subreddit.title}`);
+    } else {
+      // Removing user id to joined member
+      await subreddit.updateOne({ $pull: { joinedMembers: req.user._id } });
+
+      // Removing subreddit to users joined subreddit
+      await User.findByIdAndUpdate(req.user._id, {
+        $pull: { joinedSubreddits: subreddit._id },
+      });
+
+      res.json(`User has left subreddit r/${subreddit.title}`);
+    }
   } catch (err) {
     res.status(500).json(err);
   }
