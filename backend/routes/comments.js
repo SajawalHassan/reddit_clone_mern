@@ -19,4 +19,17 @@ router.post("/create", verify, async (req, res) => {
   }
 });
 
+router.put("/edit/:id", verify, async (req, res) => {
+  try {
+    // Updating comment
+    await Comment.findByIdAndUpdate(req.params.id, {
+      $set: req.body,
+    });
+
+    res.json("Comment updated!");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;
