@@ -116,4 +116,36 @@ router.post("/mods/create/:id", verify, async (req, res) => {
   }
 });
 
+router.post("/rule/create/:id", verify, async (req, res) => {
+  try {
+    // Finding subreddit
+    const subreddit = await Subreddit.findById(req.params.id);
+
+    // Checking if the person sending the req to make the rule is the owner or a mod
+    if (
+      subreddit.ownerId === req.user._id ||
+      subreddit.mods.includes(req.user._id)
+    ) {
+      // Checking if the rule already exists
+      if (!subreddit.rules.includes(req.body.rule)) {
+        // Adding rule to rules array
+        await subreddit.updateOne({ $push: { rules: req.body.rule } });
+
+        res.json("Added rule");
+      } else {
+        // Removing rule to rules array
+        await subreddit.updateOne({ $pull: { rules: req.body.rule } });
+
+        res.json("Removed rule");
+      }
+    } else {
+      return res
+        .status(403)
+        .json("You are not a moderator or the owner to perform this action");
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;
