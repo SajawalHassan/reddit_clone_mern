@@ -1,44 +1,44 @@
 const mongoose = require("mongoose");
 
-const userSchema = mongoose.Schema({
-  name: {
+const subredditSchema = mongoose.Schema({
+  title: {
     type: String,
     required: true,
     min: 3,
     max: 255,
   },
-  email: {
+  titleDescription: {
     type: String,
     required: true,
     min: 3,
     max: 255,
   },
-  password: {
+  ownerId: {
     type: String,
     required: true,
-    min: 8,
-    max: 1024,
   },
-  upVotedPosts: {
+  subredditPic: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    min: 3,
+    max: 500,
+    default: "",
+  },
+  joinedMembers: {
     type: Array,
     default: [],
   },
-  downVotedPosts: {
+  mods: {
     type: Array,
     default: [],
   },
-  joinedSubreddits: {
+  rules: {
     type: Array,
     default: [],
-  },
-  karma: {
-    type: Number,
-    default: 0,
-  },
-  date: {
-    type: Date,
-    default: Date.now(),
   },
 });
 
-module.exports = mongoose.model("Users", userSchema);
+module.exports = mongoose.model("subreddits", subredditSchema);

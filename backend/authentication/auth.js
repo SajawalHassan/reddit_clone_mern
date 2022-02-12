@@ -29,7 +29,7 @@ router.post("/register", async (req, res) => {
 
     res.json(newUser);
   } catch (err) {
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
 });
 
@@ -62,7 +62,7 @@ router.post("/login", async (req, res) => {
       downVotedPosts: userEmail.downVotedPosts,
     });
   } catch (err) {
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
 });
 

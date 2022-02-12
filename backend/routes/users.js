@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+const Subreddit = require("../models/Subreddit");
 
 const { verify } = require("../authentication/verifyToken");
 
@@ -41,7 +42,7 @@ router.put("/delete", verify, async (req, res) => {
 
     res.json("User deleted!");
   } catch (err) {
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
 });
 
