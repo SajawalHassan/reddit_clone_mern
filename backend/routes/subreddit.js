@@ -6,6 +6,10 @@ const { verify } = require("../authentication/verifyToken");
 
 router.post("/create", verify, async (req, res) => {
   try {
+    if (req.body.title.includes(" ")) {
+      return res.status(400).json("Title cannot have space");
+    }
+
     // Getting info for subreddit
     const subreddit = new Subreddit({
       title: req.body.title,
@@ -19,6 +23,19 @@ router.post("/create", verify, async (req, res) => {
     const newSubreddit = await subreddit.save();
 
     res.json(newSubreddit);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.put("/edit/:id", verify, async (req, res) => {
+  try {
+    // Updating subreddit
+    await Subreddit.findByIdAndUpdate(req.params.id, {
+      $set: req.body,
+    });
+
+    res.json("Subreddit updated");
   } catch (err) {
     res.status(500).json(err);
   }
