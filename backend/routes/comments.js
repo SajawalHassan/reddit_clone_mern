@@ -43,4 +43,26 @@ router.delete("/delete/:id", verify, async (req, res) => {
   }
 });
 
+router.put("/upvote/:id", verify, async (req, res) => {
+  try {
+    // Finding comment
+    const comment = await Comment.findById(req.params.id);
+
+    // Checking if the user has already upvoted the comment
+    if (!comment.upvotes.includes(req.user._id)) {
+      // Adding user id to upvotes array
+      await comment.updateOne({ $push: { upvotes: req.user._id } });
+
+      res.json("Upvote added!");
+    } else {
+      // Removing user id to upvotes array
+      await comment.updateOne({ $pull: { upvotes: req.user._id } });
+
+      res.json("Upvote removed!");
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;
