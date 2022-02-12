@@ -39,6 +39,10 @@ const subredditSchema = mongoose.Schema({
     type: Array,
     default: [],
   },
+  date: {
+    type: Date,
+    default: Date.now(),
+  },
 });
 
 module.exports = mongoose.model("subreddits", subredditSchema);

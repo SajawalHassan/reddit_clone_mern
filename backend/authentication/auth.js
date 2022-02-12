@@ -57,9 +57,13 @@ router.post("/login", async (req, res) => {
     res.header("auth-token", token).json({
       name: userEmail.name,
       email: userEmail.email,
-      karma: userEmail.karma,
+      profilePic: userEmail.profilePic,
       upVotedPosts: userEmail.upVotedPosts,
       downVotedPosts: userEmail.downVotedPosts,
+      joinedSubreddits: userEmail.joinedSubreddits,
+      karma: userEmail.karma,
+      date: userEmail.date,
+      _id: userEmail._id,
     });
   } catch (err) {
     res.status(500).json(err);

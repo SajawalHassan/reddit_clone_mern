@@ -19,6 +19,10 @@ const userSchema = mongoose.Schema({
     min: 8,
     max: 1024,
   },
+  profilePic: {
+    type: String,
+    default: "",
+  },
   upVotedPosts: {
     type: Array,
     default: [],
