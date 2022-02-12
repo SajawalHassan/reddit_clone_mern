@@ -6,7 +6,7 @@ module.exports.verify = function (req, res, next) {
     const token = req.header("auth-token");
     // If he doesn't then throw err
     if (!token) {
-      return res.status(400).json("Please sign in/up first!");
+      return res.status(403).json("Please sign in/up first!");
     }
 
     // Verifying token
