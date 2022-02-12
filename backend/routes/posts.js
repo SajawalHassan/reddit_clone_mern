@@ -28,4 +28,17 @@ router.post("/create", verify, async (req, res) => {
   }
 });
 
+router.put("/edit/:id", verify, async (req, res) => {
+  try {
+    // Updating post
+    await Post.findByIdAndUpdate(req.params.id, {
+      $set: req.body,
+    });
+
+    res.json("Updated post");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;
