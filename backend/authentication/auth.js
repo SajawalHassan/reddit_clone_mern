@@ -64,6 +64,7 @@ router.post("/login", async (req, res) => {
       karma: userEmail.karma,
       date: userEmail.date,
       _id: userEmail._id,
+      token: token,
     });
   } catch (err) {
     res.status(500).json(err);

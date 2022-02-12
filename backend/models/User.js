@@ -23,11 +23,11 @@ const userSchema = mongoose.Schema({
     type: String,
     default: "",
   },
-  upVotedPosts: {
+  upvotedPosts: {
     type: Array,
     default: [],
   },
-  downVotedPosts: {
+  downvotedPosts: {
     type: Array,
     default: [],
   },
