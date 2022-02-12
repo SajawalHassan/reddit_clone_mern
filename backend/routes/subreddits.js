@@ -151,7 +151,7 @@ router.post("/rule/create/:id", verify, async (req, res) => {
 router.get("/feed", async (req, res) => {
   try {
     // Getting all subreddits
-    const allSubreddits = await Subreddit.findById();
+    const allSubreddits = await Subreddit.find();
 
     res.json(allSubreddits);
   } catch (err) {
