@@ -32,4 +32,15 @@ router.put("/edit/:id", verify, async (req, res) => {
   }
 });
 
+router.delete("/delete/:id", verify, async (req, res) => {
+  try {
+    // Deleting comment
+    await Comment.findByIdAndDelete(req.params.id);
+
+    res.json("Comment deleted!");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;
