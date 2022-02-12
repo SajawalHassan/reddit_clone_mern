@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 
 const authRouter = require("./authentication/auth");
 const userRouter = require("./routes/users");
-const subredditRouter = require("./routes/subreddit");
+const subredditRouter = require("./routes/subreddits");
 const postsRouter = require("./routes/posts");
 const commentRouter = require("./routes/comments");
 

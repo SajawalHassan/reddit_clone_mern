@@ -148,4 +148,15 @@ router.post("/rule/create/:id", verify, async (req, res) => {
   }
 });
 
+router.get("/feed", async (req, res) => {
+  try {
+    // Getting all subreddits
+    const allSubreddits = await Subreddit.findById();
+
+    res.json(allSubreddits);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;

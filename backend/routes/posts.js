@@ -139,7 +139,7 @@ router.put("/downvote/:id", verify, async (req, res) => {
   }
 });
 
-router.get("/feed", verify, async (req, res) => {
+router.get("/feed", async (req, res) => {
   try {
     // Getting all post
     const allPosts = await Post.findById();
