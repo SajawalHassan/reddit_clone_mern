@@ -54,7 +54,7 @@ router.delete("/delete/:id", verify, async (req, res) => {
 
 router.put("/join/:id", verify, async (req, res) => {
   try {
-    // Getting subreddit
+    // Finding subreddit
     const subreddit = await Subreddit.findById(req.params.id);
 
     // Checking if the user is already joined
@@ -78,6 +78,38 @@ router.put("/join/:id", verify, async (req, res) => {
       });
 
       res.json(`User has left subreddit r/${subreddit.title}`);
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.post("/mods/create/:id", verify, async (req, res) => {
+  try {
+    // Finding subreddit
+    const subreddit = await Subreddit.findById(req.params.id);
+
+    // Checking if the person sending the req to make x a mod is the owner or a mod
+    if (
+      subreddit.ownerId === req.user._id ||
+      subreddit.mods.includes(req.user._id)
+    ) {
+      // Checking if x is already a mod or not
+      if (!subreddit.mods.includes(req.body.modId)) {
+        // Adding users id to subreddit mods array
+        await subreddit.updateOne({ $push: { mods: req.body.modId } });
+
+        res.json("Added mod");
+      } else {
+        // Removing users id to subreddit mods array
+        await subreddit.updateOne({ $pull: { mods: req.body.modId } });
+
+        res.json("Removed mod");
+      }
+    } else {
+      return res
+        .status(403)
+        .json("You are not a moderator or the owner to perform this action");
     }
   } catch (err) {
     res.status(500).json(err);
