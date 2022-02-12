@@ -71,6 +71,9 @@ router.put("/upvote/:id", verify, async (req, res) => {
         $push: { upvotedPosts: post._id },
       });
 
+      // Adding 1 karma to OP
+      await User.findByIdAndUpdate(post.ownerId, { $inc: { karma: 1 } });
+
       res.json("Added upvote");
     } else {
       // Removing user id to upvotes array
@@ -82,6 +85,9 @@ router.put("/upvote/:id", verify, async (req, res) => {
       await User.findByIdAndUpdate(req.user, {
         $pull: { upvotedPosts: post._id },
       });
+
+      // Removing 1 karma to OP
+      await User.findByIdAndUpdate(post.ownerId, { $inc: { karma: -1 } });
 
       res.json("Removed upvote");
     }
@@ -108,6 +114,9 @@ router.put("/downvote/:id", verify, async (req, res) => {
         $push: { downvotedPosts: post._id },
       });
 
+      // Removing 1 karma to OP
+      await User.findByIdAndUpdate(post.ownerId, { $inc: { karma: -1 } });
+
       res.json("Added downvote");
     } else {
       // Removing user id to downvotes array
@@ -119,6 +128,9 @@ router.put("/downvote/:id", verify, async (req, res) => {
       await User.findByIdAndUpdate(req.user, {
         $pull: { downvotedPosts: post._id },
       });
+
+      // Adding 1 karma to OP
+      await User.findByIdAndUpdate(post.ownerId, { $inc: { karma: 1 } });
 
       res.json("Removed downvote");
     }
