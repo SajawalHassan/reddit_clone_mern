@@ -90,4 +90,41 @@ router.put("/upvote/:id", verify, async (req, res) => {
   }
 });
 
+router.put("/downvote/:id", verify, async (req, res) => {
+  try {
+    // Finding post
+    const post = await Post.findById(req.params.id);
+
+    // Checking if the post is already downvoted
+    if (!post.downvotes.includes(req.user._id)) {
+      // Adding user id to upvotes array and removing from downvotes array
+      await post.updateOne({
+        $push: { downvotes: req.user._id },
+        $pull: { upvotes: req.user._id },
+      });
+
+      // Adding post id to users downvoted post
+      await User.findByIdAndUpdate(req.user, {
+        $push: { downvotedPosts: post._id },
+      });
+
+      res.json("Added downvote");
+    } else {
+      // Removing user id to downvotes array
+      await post.updateOne({
+        $pull: { downvotes: req.user._id },
+      });
+
+      // Removing post id to users downvoted post
+      await User.findByIdAndUpdate(req.user, {
+        $pull: { downvotedPosts: post._id },
+      });
+
+      res.json("Removed downvote");
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;
