@@ -7,6 +7,18 @@ const { registerValidation, loginValidation } = require("./validation");
 
 router.post("/register", async (req, res) => {
   try {
+    // Checking if the user is already signed in or not
+    const token = req.header("auth-token");
+    if (token) {
+      return res.status(400).json("You are already logged in!");
+    }
+
+    // Checking if the user already exists
+    const userEmail = await User.findOne({ email: req.body.email });
+    if (userEmail) {
+      return res.status(400).json("Email already exists!");
+    }
+
     // Validating data
     const { error } = registerValidation(req.body);
     if (error) {
