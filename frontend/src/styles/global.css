@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  overflow-x: hidden;
+}
+
+@layer components {
+  .auth-input {
+    @apply px-2 py-1 w-full rounded-md outline-none text-slate-700 focus:shadow-xl focus:shadow-orange-300;
+  }
+}
