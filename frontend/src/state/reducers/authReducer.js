@@ -1,10 +1,12 @@
-const initState = {
+const initailState = {
   isLoggedIn: false,
   token: null,
 };
 
-export default (state = initState, action) => {
+export default (state = initailState, action) => {
   switch (action.type) {
+    case "LOGIN":
+      return { isLoggedIn: true, token: action.payload.token };
     case "REGISTER":
       state = { isLoggedIn: false, token: null, redirect: true };
       return state;

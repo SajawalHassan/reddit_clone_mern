@@ -1,11 +1,11 @@
 import { combineReducers } from "redux";
-import register from "./authReducer";
-import error from "./errReducer";
 
-// Combining reducers
-const reducers = combineReducers({
-  register,
+import auth from "./authReducer";
+import user from "./userReducer";
+import error from "./errorReducer";
+
+export default combineReducers({
+  auth,
+  user,
   error,
 });
-
-export default reducers;

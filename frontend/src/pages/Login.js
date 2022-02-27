@@ -4,47 +4,40 @@ import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, Link, Redirect } from "react-router-dom";
-import { register } from "../state/actions/auth";
+import { useHistory, Link } from "react-router-dom";
+import { login } from "../state/actions/auth";
 
-function Register() {
+function Login() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [username, setUsername] = useState("");
+  const error = useSelector((state) => state.error);
+  const authUser = useSelector((state) => state.user);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
-
-  const error = useSelector((state) => state.error);
-  const registeredUser = useSelector((state) => state.auth);
 
   const handleOnClick = (e) => {
     e.preventDefault();
 
-    setLoading(true);
-    dispatch(register(username, email, password));
-    setLoading(false);
+    // Dispatching an action
+    dispatch(login(email, password));
 
-    if (registeredUser.redirect) {
-      <Redirect to="/login" />;
-      // history.push("/login");
+    // Pushing user to the home page
+    if (authUser.redirect) {
+      history.push("/home");
     }
   };
-
-  if (loading) {
-    return <h1>Loading</h1>;
-  }
 
   return (
     <div className="h-screen flex items-center justify-center bg-gradient-to-bl from-[#f59d7d] to-[#fab8a0]">
       <div className="shadow-2xl px-4 pb-3 pt-3 mx-1 bg-orange-200 rounded-md max-w-md md:max-w-lg lg:max-w-2xl">
-        <h1 className="text-2xl uppercase">signup</h1>
-        <p className="text-gray-600 text-sm mt-2">Welcome to Reddit!</p>
+        <h1 className="text-2xl uppercase">login</h1>
+        <p className="text-gray-600 text-sm mt-2">Welcome back!</p>
 
         <p className="text-gray-600 text-xs mt-4">
-          By continuing, you are setting up a Reddit account and agree to our{" "}
+          By continuing, you agree to our{" "}
           <span className="text-blue-500 hover:underline cursor-pointer">
             User Agreement
           </span>{" "}
@@ -55,14 +48,6 @@ function Register() {
           .
         </p>
         <form className="space-y-2 mt-5">
-          <input
-            className="auth-input"
-            type="text"
-            placeholder="Username"
-            autoComplete="on"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
           <input
             className="auth-input"
             type="text"
@@ -104,16 +89,16 @@ function Register() {
             className="bg-blue-500 py-2 w-[70%] rounded-full text-center mx-14 md:mx-15 lg:mx-16 hover:bg-blue-600 transition-colors duration-300"
             onClick={handleOnClick}
           >
-            <h1 className="font-bold text-white">Register</h1>
+            <h1 className="font-bold text-white">Login</h1>
           </button>
         </form>
         <h1 className="text-xs text-slate-600 mt-4 text-center">
-          Already a redditor?{" "}
+          New to Reddit?{" "}
           <Link
-            to="/login"
+            to="/register"
             className="font-bold text-blue-500 text-xs hover:underline uppercase"
           >
-            log in
+            sign up
           </Link>
         </h1>
       </div>
@@ -121,4 +106,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Login;

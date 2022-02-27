@@ -8,6 +8,6 @@ body {
 
 @layer components {
   .auth-input {
-    @apply px-2 py-1 w-full rounded-md outline-none text-slate-700 focus:shadow-xl focus:shadow-orange-300;
+    @apply px-2 py-1 w-full rounded-md outline-none text-slate-700 focus:ring-1 focus:ring-orange-500;
   }
 }
