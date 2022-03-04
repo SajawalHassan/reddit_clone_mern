@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, Link, Redirect } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { register } from "../state/actions/auth";
 
 function Register() {
@@ -14,27 +14,38 @@ function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
 
   const error = useSelector((state) => state.error);
   const registeredUser = useSelector((state) => state.auth);
 
+  useEffect(() => {
+    // Pushing user to login
+    if (loading && registeredUser.redirect) {
+      history.push("/login");
+      setLoading(false);
+    }
+
+    // Before if the user enters right credentials after entering the wrong ones it would just remove the error
+    // Here we are just fixing that
+    if (error.message && registeredUser.redirect) {
+      history.push("/login");
+      setLoading(false);
+    }
+  }, [loading, registeredUser]);
+
   const handleOnClick = (e) => {
     e.preventDefault();
 
     setLoading(true);
-    dispatch(register(username, email, password));
-    setLoading(false);
-
-    if (registeredUser.redirect) {
-      <Redirect to="/login" />;
-      // history.push("/login");
-    }
+    dispatch(register(username, email, password)); // Dispatch the register action
   };
 
-  if (loading) {
-    return <h1>Loading</h1>;
+  // Setting loading to false after error is displayed
+  if (error.message && loading) {
+    setLoading(false);
   }
 
   return (
@@ -93,6 +104,10 @@ function Register() {
             </div>
           </div>
 
+          {loading && (
+            <h1 className="text-gray-500 text-center text-sm">Loading...</h1>
+          )}
+
           {error.message && (
             <h1 className="text-sm text-red-500 text-center">
               {error.message}
@@ -101,7 +116,7 @@ function Register() {
 
           <button
             type="submit"
-            className="bg-blue-500 py-2 w-[70%] rounded-full text-center mx-14 md:mx-15 lg:mx-16 hover:bg-blue-600 transition-colors duration-300"
+            className="bg-blue-500 py-2 w-[70%] rounded-full text-center ml-16 md:ml-20 hover:bg-blue-600 transition-colors duration-300"
             onClick={handleOnClick}
           >
             <h1 className="font-bold text-white">Register</h1>
