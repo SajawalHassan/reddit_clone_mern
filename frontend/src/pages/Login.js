@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
@@ -11,24 +11,40 @@ function Login() {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const authUser = useSelector((state) => state.user); // Getting the authenticated user
   const error = useSelector((state) => state.error);
-  const authUser = useSelector((state) => state.user);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Pushing user to login
+    if (loading && authUser.redirect) {
+      history.push("/home");
+      setLoading(false);
+    }
+
+    // Before if the user enters right credentials after entering the wrong ones it would just remove the error
+    // Here we are just fixing that
+    if (error.message && authUser.redirect) {
+      history.push("/home");
+      setLoading(false);
+    }
+  }, [loading, authUser]);
 
   const handleOnClick = (e) => {
     e.preventDefault();
 
-    // Dispatching an action
-    dispatch(login(email, password));
-
-    // Pushing user to the home page
-    if (authUser.redirect) {
-      history.push("/home");
-    }
+    setLoading(true);
+    dispatch(login(email, password)); // Dispatching the login action
   };
+
+  // Setting loading to false after error is displayed
+  if (loading && error.message) {
+    setLoading(false);
+  }
 
   return (
     <div className="h-screen flex items-center justify-center bg-gradient-to-bl from-[#f59d7d] to-[#fab8a0]">
@@ -77,6 +93,10 @@ function Login() {
               />
             </div>
           </div>
+
+          {loading && (
+            <h1 className="text-gray-500 text-center text-sm">Loading...</h1>
+          )}
 
           {error.message && (
             <h1 className="text-sm text-red-500 text-center">

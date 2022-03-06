@@ -21,6 +21,8 @@ function Register() {
   const error = useSelector((state) => state.error);
   const registeredUser = useSelector((state) => state.auth);
 
+  console.log(registeredUser.redirect);
+
   useEffect(() => {
     // Pushing user to login
     if (loading && registeredUser.redirect) {

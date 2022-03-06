@@ -2,6 +2,9 @@ const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const Jwt = require("jsonwebtoken");
+const cors = require("cors");
+
+router.use(cors());
 
 const { registerValidation, loginValidation } = require("./validation");
 
@@ -41,12 +44,6 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    // Validating data
-    const { error } = loginValidation(req.body);
-    if (error) {
-      return res.status(400).json(error);
-    }
-
     // Checking if the email is correct
     const userEmail = await User.findOne({ email: req.body.email });
     if (!userEmail) return res.status(400).json("Invalid email or password!");
@@ -70,7 +67,6 @@ router.post("/login", async (req, res) => {
       karma: userEmail.karma,
       date: userEmail.date,
       _id: userEmail._id,
-      token: token,
     });
   } catch (err) {
     res.status(500).json(err);

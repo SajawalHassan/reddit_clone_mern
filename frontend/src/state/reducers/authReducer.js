@@ -1,6 +1,7 @@
 const initailState = {
   isLoggedIn: false,
   token: null,
+  redirect: false,
 };
 
 export default (state = initailState, action) => {
