@@ -6,7 +6,7 @@ const cors = require("cors");
 
 router.use(cors());
 
-const { registerValidation, loginValidation } = require("./validation");
+const { registerValidation } = require("./validation");
 
 router.post("/register", async (req, res) => {
   try {
