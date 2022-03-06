@@ -16,6 +16,11 @@ router.post("/register", async (req, res) => {
       return res.status(400).json("Email already exists!");
     }
 
+    // Making sure the user doesn't put a space in username
+    if (req.body.name.includes(" ")) {
+      return res.status(400).json("Username cannot include space!");
+    }
+
     // Validating data
     const { error } = registerValidation(req.body);
     if (error) {

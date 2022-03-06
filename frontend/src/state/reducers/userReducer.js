@@ -27,8 +27,6 @@ export default (state = initailState, action) => {
       };
     case "GET_USER":
       return state;
-    // case "LOGIN":
-    //   return { redirect: true };
     default:
       return state;
   }
