@@ -5,6 +5,7 @@ import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlin
 import HeaderMenuOption from "./HeaderMenuOption";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import HeaderSearchOption from "./HeaderSearchOption";
 
 import {
   GlobeIcon,
@@ -18,23 +19,45 @@ import {
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
 import { Checkbox } from "@mui/material";
+import { useSelector } from "react-redux";
 
 function Header() {
+  const token = useSelector((state) => state.auth);
+
+  console.log(token);
+
   const [menuState, setMenuState] = useState(false);
+  const [isFocus, setIsFocus] = useState(false);
 
   return (
     <div className="flex-item justify-between py-2 px-4 bg-white">
-      <div>
+      <Link to="/" className="flex-item space-x-2">
         <img src="/redditLogo.svg" alt="" className="h-8" />
+        <img src="/redditLogoText.svg" alt="" className="hidden lg:block h-5" />
+      </Link>
+      <div className="relative w-[75%] sm:w-[50%] md:w-[50%]">
+        <div className="flex-item  pl-2 rounded-sm bg-[#f4f4f4] ring-1 ring-outlineColor hover:ring-blue-500 focus-within:ring-blue-500 focus-within:bg-white hover:bg-white header-input">
+          <SearchIcon className="h-5 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search Reddit"
+            className="flex-grow p-1 ml-1 outline-none bg-transparent text-slate-600 text-sm"
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+          />
+        </div>
+        <div
+          className={
+            isFocus
+              ? `flex-item justify-center absolute top-10 w-full bg-white`
+              : `hidden`
+          }
+        >
+          {/* WILL COMPLETE LATER */}
+          <HeaderSearchOption />
+        </div>
       </div>
-      <div className="flex-item p-1 w-[75%] sm:w-[50%] md:w-[59%] space-x-2 rounded-sm bg-[#f4f4f4] ring-1 ring-outlineColor hover:ring-blue-500 focus-within:ring-blue-500">
-        <SearchIcon className="h-6 text-gray-500 ml-1" />
-        <input
-          type="text"
-          placeholder="Search Reddit"
-          className="flex-grow outline-none bg-transparent text-slate-600"
-        />
-      </div>
+
       <div className="hidden sm:flex-item space-x-3 md:space-x-4 px-2">
         <Link
           to="/login"
@@ -60,7 +83,7 @@ function Header() {
       <div
         className={
           menuState
-            ? `absolute right-0 top-10 mt-2 w-[40%] bg-white rounded-sm`
+            ? `absolute right-0 top-10 mt-2 w-[40%] sm:w-[30%] md:w-[25%] lg:w-[20%] bg-white rounded-sm`
             : `hidden`
         }
       >

@@ -14,7 +14,7 @@ export default (state = initailState, action) => {
   switch (action.type) {
     case "SET_USER":
       return {
-        id: action.payload.id,
+        _id: action.payload._id,
         name: action.payload.name,
         email: action.payload.email,
         profilePic: action.payload.profilePic,
