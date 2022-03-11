@@ -22,14 +22,14 @@ function Login() {
   useEffect(() => {
     // Pushing user to login
     if (loading && authUser.redirect) {
-      history.push("/home");
+      history.push("/");
       setLoading(false);
     }
 
     // Before if the user enters right credentials after entering the wrong ones it would just remove the error
     // Here we are just fixing that
     if (error.message && authUser.redirect) {
-      history.push("/home");
+      history.push("/");
       setLoading(false);
     }
   }, [loading, authUser]);

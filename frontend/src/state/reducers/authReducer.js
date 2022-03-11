@@ -9,7 +9,7 @@ export default (state = initailState, action) => {
     case "LOGIN":
       return {
         isLoggedIn: true,
-        token: action.payload.authtoken,
+        token: action.payload,
         redirect: true,
       };
     case "REGISTER":
