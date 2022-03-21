@@ -5,6 +5,10 @@ const Subreddit = require("../models/Subreddit");
 const { verify } = require("../authentication/verifyToken");
 const User = require("../models/User");
 
+router.get("/private", verify, async (req, res) => {
+  res.json("Private");
+});
+
 router.post("/create", verify, async (req, res) => {
   try {
     // Finding subreddit
@@ -25,7 +29,7 @@ router.post("/create", verify, async (req, res) => {
 
     res.json(newPost);
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500);
   }
 });
 
@@ -38,7 +42,7 @@ router.put("/edit/:id", verify, async (req, res) => {
 
     res.json("Updated post");
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500);
   }
 });
 
@@ -49,7 +53,7 @@ router.delete("/delete/:id", verify, async (req, res) => {
 
     res.json("Post deleted");
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500);
   }
 });
 
@@ -92,7 +96,7 @@ router.put("/upvote/:id", verify, async (req, res) => {
       res.json("Removed upvote");
     }
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500);
   }
 });
 
@@ -135,7 +139,7 @@ router.put("/downvote/:id", verify, async (req, res) => {
       res.json("Removed downvote");
     }
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500);
   }
 });
 
@@ -146,7 +150,7 @@ router.get("/feed", async (req, res) => {
 
     res.json(posts);
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500);
   }
 });
 

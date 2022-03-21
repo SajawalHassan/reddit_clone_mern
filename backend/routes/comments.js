@@ -17,7 +17,7 @@ router.post("/create", verify, async (req, res) => {
 
     res.json(newComment);
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500);
   }
 });
 
@@ -30,7 +30,7 @@ router.put("/edit/:id", verify, async (req, res) => {
 
     res.json("Comment updated!");
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500);
   }
 });
 
@@ -41,7 +41,7 @@ router.delete("/delete/:id", verify, async (req, res) => {
 
     res.json("Comment deleted!");
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500);
   }
 });
 
@@ -72,7 +72,7 @@ router.put("/upvote/:id", verify, async (req, res) => {
       res.json("Upvote removed!");
     }
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500);
   }
 });
 
@@ -103,7 +103,7 @@ router.put("/downvote/:id", verify, async (req, res) => {
       res.json("Downvote removed!");
     }
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500);
   }
 });
 

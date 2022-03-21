@@ -24,7 +24,7 @@ router.post("/create", verify, async (req, res) => {
 
     res.json(newSubreddit);
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500);
   }
 });
 
@@ -37,7 +37,7 @@ router.put("/edit/:id", verify, async (req, res) => {
 
     res.json("Subreddit updated");
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500);
   }
 });
 
@@ -48,7 +48,7 @@ router.delete("/delete/:id", verify, async (req, res) => {
 
     res.json("Subreddit deleted");
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500);
   }
 });
 
@@ -80,7 +80,7 @@ router.put("/join/:id", verify, async (req, res) => {
       res.json(`User has left subreddit r/${subreddit.title}`);
     }
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500);
   }
 });
 
@@ -112,7 +112,7 @@ router.post("/mods/create/:id", verify, async (req, res) => {
         .json("You are not a moderator or the owner to perform this action");
     }
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500);
   }
 });
 
@@ -144,7 +144,7 @@ router.post("/rule/create/:id", verify, async (req, res) => {
         .json("You are not a moderator or the owner to perform this action");
     }
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500);
   }
 });
 
@@ -155,7 +155,7 @@ router.get("/feed", async (req, res) => {
 
     res.json(allSubreddits);
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500);
   }
 });
 

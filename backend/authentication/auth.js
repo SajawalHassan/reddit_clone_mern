@@ -1,18 +1,17 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
-const Jwt = require("jsonwebtoken");
-const cors = require("cors");
-
-router.use(cors());
+const jwt = require("jsonwebtoken");
+const RefreshToken = require("../models/RefreshToken");
 
 const { registerValidation } = require("./validation");
+const { generateAccessToken } = require("../utils/generateAccessToken");
 
 router.post("/register", async (req, res) => {
   try {
     // Checking if the user already exists
-    const userEmail = await User.findOne({ email: req.body.email });
-    if (userEmail) {
+    const user = await User.findOne({ email: req.body.email });
+    if (user) {
       return res.status(400).json("Email already exists!");
     }
 
@@ -32,49 +31,103 @@ router.post("/register", async (req, res) => {
     const hashedPass = await bcrypt.hash(req.body.password, salt);
 
     // Getting info for new user
-    const user = new User({
+    const userData = new User({
       name: req.body.name,
       email: req.body.email,
       password: hashedPass,
     });
 
     // Saving new user
-    const newUser = await user.save();
+    const newUser = await userData.save();
 
     res.json(newUser);
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500);
   }
 });
 
 router.post("/login", async (req, res) => {
   try {
     // Checking if the email is correct
-    const userEmail = await User.findOne({ email: req.body.email });
-    if (!userEmail) return res.status(400).json("Invalid email or password!");
+    const user = await User.findOne({ email: req.body.email });
+
+    if (!user) return res.status(400).json("Invalid email or password!");
 
     // Checking if the password is correct
-    const validPass = await bcrypt.compare(
-      req.body.password,
-      userEmail.password
-    );
+    const validPass = await bcrypt.compare(req.body.password, user.password);
+
     if (!validPass) return res.status(400).json("Invalid email or password!");
 
-    // Creating and assigning the token
-    const token = Jwt.sign({ _id: userEmail._id }, process.env.TOKEN_SECRET);
-    res.header("auth-token", token).json({
-      name: userEmail.name,
-      email: userEmail.email,
-      profilePic: userEmail.profilePic,
-      upVotedPosts: userEmail.upVotedPosts,
-      downVotedPosts: userEmail.downVotedPosts,
-      joinedSubreddits: userEmail.joinedSubreddits,
-      karma: userEmail.karma,
-      date: userEmail.date,
-      _id: userEmail._id,
+    const payload = {
+      name: user.name,
+      email: user.email,
+      profilePic: user.profilePic,
+      upVotedPosts: user.upVotedPosts,
+      downVotedPosts: user.downVotedPosts,
+      joinedSubreddits: user.joinedSubreddits,
+      karma: user.karma,
+      date: user.date,
+      _id: user._id,
+    };
+
+    // Creating the access and refresh token
+    const accessToken = generateAccessToken(payload);
+    const refreshToken = jwt.sign(
+      user.toJSON(),
+      process.env.REFRESH_TOKEN_SECRET
+    );
+
+    const newRefreshToken = await RefreshToken({
+      refreshToken: refreshToken,
+    });
+
+    await newRefreshToken.save();
+
+    res.json({
+      name: user.name,
+      email: user.email,
+      profilePic: user.profilePic,
+      upVotedPosts: user.upVotedPosts,
+      downVotedPosts: user.downVotedPosts,
+      joinedSubreddits: user.joinedSubreddits,
+      karma: user.karma,
+      date: user.date,
+      _id: user._id,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
     });
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500);
+  }
+});
+
+router.post("/refresh", (req, res) => {
+  try {
+    const refreshToken = req.body.refresh_token;
+    const _refreshToken = RefreshToken.find({
+      refreshToken: refreshToken,
+    });
+
+    if (_refreshToken == null) return res.sendStatus(401);
+    if (!_refreshToken) return res.sendStatus(403);
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+      if (err) return res.sendStatus(403);
+      const payload = {
+        name: user.name,
+        email: user.email,
+        profilePic: user.profilePic,
+        upVotedPosts: user.upVotedPosts,
+        downVotedPosts: user.downVotedPosts,
+        joinedSubreddits: user.joinedSubreddits,
+        karma: user.karma,
+        date: user.date,
+        _id: user._id,
+      };
+      const accessToken = generateAccessToken(payload);
+      res.json({ accessToken: accessToken });
+    });
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 

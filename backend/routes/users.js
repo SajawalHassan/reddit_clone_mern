@@ -42,7 +42,7 @@ router.put("/delete", verify, async (req, res) => {
 
     res.json("User deleted!");
   } catch (err) {
-    res.status(500).json(err);
+    res.sendStatus(500);
   }
 });
 
