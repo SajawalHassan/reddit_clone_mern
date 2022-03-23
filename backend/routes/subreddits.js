@@ -67,4 +67,15 @@ router.delete("/delete/:id", authenticate, async (req, res) => {
   }
 });
 
+router.get("/feed", async (req, res) => {
+  try {
+    // Getting all subreddits
+    const subreddits = await Subreddit.find();
+
+    res.json(subreddits);
+  } catch (error) {
+    res.sendStatus(500);
+  }
+});
+
 module.exports = router;
