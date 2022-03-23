@@ -21,11 +21,30 @@ router.post("/create", authenticate, async (req, res) => {
       ownerId: req.user._id,
     });
 
+    // Saving subreddit info into db
     await newSubreddit.save();
 
     res.json(newSubreddit);
   } catch (error) {
     console.log(error);
+    res.sendStatus(500);
+  }
+});
+
+router.put("/edit/:id", authenticate, async (req, res) => {
+  try {
+    // Finding subreddit
+    const subreddit = await Subreddit.findById(req.params.id);
+
+    // Making sure the user updating the subreddit is the owner
+    if (subreddit.ownerId !== req.user._id)
+      return res.json("You are not the owner!");
+
+    // Updating the subreddit
+    await subreddit.updateOne({ $set: req.body });
+
+    res.json("Subreddit info updated");
+  } catch (error) {
     res.sendStatus(500);
   }
 });
