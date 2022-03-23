@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 
 const authRouter = require("./auth/auth");
+const authenticate = require("./auth/authenticate");
 
 require("dotenv").config();
 
@@ -20,6 +21,21 @@ app.use(morgan("common"));
 
 // Routes middleware
 app.use("/auth", authRouter);
+
+const posts = [
+  {
+    username: "bob",
+    content: "bobby guy",
+  },
+  {
+    username: "kyle",
+    content: "kyle guy",
+  },
+];
+
+app.get("/posts", authenticate, (req, res) => {
+  res.json(posts.filter((posts) => posts.username === req.user.username));
+});
 
 // Connecting to database
 mongoose.connect(process.env.DB_ACCESS_KEY, () =>
