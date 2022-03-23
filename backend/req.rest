@@ -1,10 +1,8 @@
-POST http://localhost:5000/auth/register
+POST http://localhost:5000/auth/refresh
 Content-Type: application/json
 
 {
-    "username": "bob",
-    "email": "bob@gmail.com",
-    "password": "bob12345"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjNhYmZmNmJmOTNmNzAzOWM5OGY1ZDYiLCJ1c2VybmFtZSI6ImJvYiIsImVtYWlsIjoiYm9iQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJEZtQmtUUlNDeFA4TFl2OEVaazdESmVBU3dZdUNRRTd2em9LaU5nZUZIT1VhTjBORU03WkZlIiwicHJvZmlsZVBpYyI6IiIsInVwdm90ZWRQb3N0cyI6W10sImRvd252b3RlZFBvc3RzIjpbXSwiam9pbmVkU3VicmVkZGl0cyI6W10sImthcm1hIjowLCJkYXRlIjoiMjAyMi0wMy0yM1QwNjozNToyMC44NzhaIiwiX192IjowLCJpYXQiOjE2NDgwMTc0MDV9.WkSg8-XJt5VTdhoBijZ985GWaW9Jx4hLVkdDz29rGWU"
 }
 
 ###
@@ -14,28 +12,16 @@ Content-Type: application/json
 
 {
     "email": "bob@gmail.com",
-    "password": "bob12345"
+    "password": "bob@1234"
 }
 
 ###
 
-GET http://localhost:5000/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsImVtYWlsIjoiYm9iQGdtYWlsLmNvbSIsInByb2ZpbGVQaWMiOiIiLCJqb2luZWRTdWJyZWRkaXRzIjpbXSwia2FybWEiOjAsImRhdGUiOiIyMDIyLTAzLTIzVDA1OjIxOjQ3Ljc3NFoiLCJfaWQiOiI2MjNhYWVkYzRiNDAzODBlYmUyOGI2ZWUiLCJpYXQiOjE2NDgwMTMwNzEsImV4cCI6MTY0ODAxMzA4Nn0.KYhOZzTBChFq0fmKNzu_HmrEvT-MuEsoOWQy24Cuvao
-
-###
-
-POST http://localhost:5000/auth/refresh
+POST http://localhost:5000/subreddit/create
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsImVtYWlsIjoiYm9iQGdtYWlsLmNvbSIsInByb2ZpbGVQaWMiOiIiLCJqb2luZWRTdWJyZWRkaXRzIjpbXSwia2FybWEiOjAsImRhdGUiOiIyMDIyLTAzLTIzVDA2OjM1OjIwLjg3OFoiLCJfaWQiOiI2MjNhYmZmNmJmOTNmNzAzOWM5OGY1ZDYiLCJpYXQiOjE2NDgwNDI5MTEsImV4cCI6MTY0ODA0MzUxMX0.GKn3PwN7byKc1_b5lR7_pNA_JZPHVC4K0a_cM-fkbJs
 
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjNhYWVkYzRiNDAzODBlYmUyOGI2ZWUiLCJ1c2VybmFtZSI6ImJvYiIsImVtYWlsIjoiYm9iQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDdPSjFraDkxYzdsemhRTHJnQXNPby5NdzJxNU9tcm9qcUVFL1R5NUUvVGpxdHN5YzhrMVJxIiwicHJvZmlsZVBpYyI6IiIsInVwdm90ZWRQb3N0cyI6W10sImRvd252b3RlZFBvc3RzIjpbXSwiam9pbmVkU3VicmVkZGl0cyI6W10sImthcm1hIjowLCJkYXRlIjoiMjAyMi0wMy0yM1QwNToyMTo0Ny43NzRaIiwiX192IjowLCJpYXQiOjE2NDgwMTMwNjR9.nLtZjF-T-NPl--Z_1NIahY-MXOWgh1I1ZQUy7mq3Cu8"
-}
-
-###
-
-DELETE http://localhost:5000/auth/logout
-Content-Type: application/json
-
-{
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjNhYWVkYzRiNDAzODBlYmUyOGI2ZWUiLCJ1c2VybmFtZSI6ImJvYiIsImVtYWlsIjoiYm9iQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDdPSjFraDkxYzdsemhRTHJnQXNPby5NdzJxNU9tcm9qcUVFL1R5NUUvVGpxdHN5YzhrMVJxIiwicHJvZmlsZVBpYyI6IiIsInVwdm90ZWRQb3N0cyI6W10sImRvd252b3RlZFBvc3RzIjpbXSwiam9pbmVkU3VicmVkZGl0cyI6W10sImthcm1hIjowLCJkYXRlIjoiMjAyMi0wMy0yM1QwNToyMTo0Ny43NzRaIiwiX192IjowLCJpYXQiOjE2NDgwMTMwNjR9.nLtZjF-T-NPl--Z_1NIahY-MXOWgh1I1ZQUy7mq3Cu8"
+    "title": "memes",
+    "titleDescription": "r/memes the original since 2008"
 }
