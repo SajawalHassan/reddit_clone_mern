@@ -11,17 +11,17 @@ POST http://localhost:5000/auth/login
 Content-Type: application/json
 
 {
-    "email": "bob@gmail.com",
-    "password": "bob@1234"
+    "email": "kyle@gmail.com",
+    "password": "kyle@1234"
 }
 
 ###
 
-PUT http://localhost:5000/subreddit/edit/623b29a27d44e1ad40b9538e
+DELETE http://localhost:5000/subreddit/delete/623b36cc6e290facbf17ce23
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsImVtYWlsIjoiYm9iQGdtYWlsLmNvbSIsInByb2ZpbGVQaWMiOiIiLCJqb2luZWRTdWJyZWRkaXRzIjpbXSwia2FybWEiOjAsImRhdGUiOiIyMDIyLTAzLTIzVDA2OjM1OjIwLjg3OFoiLCJfaWQiOiI2MjNhYmZmNmJmOTNmNzAzOWM5OGY1ZDYiLCJpYXQiOjE2NDgwNDcxODEsImV4cCI6MTY0ODA0Nzc4MX0.klJG4Ns5NFl0ICednpEncsOLwNNEaA_4b-JZ9dXkUBk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imt5bGUiLCJlbWFpbCI6Imt5bGVAZ21haWwuY29tIiwicHJvZmlsZVBpYyI6IiIsImpvaW5lZFN1YnJlZGRpdHMiOltdLCJrYXJtYSI6MCwiZGF0ZSI6IjIwMjItMDMtMjNUMTQ6NTY6MjIuNTY1WiIsIl9pZCI6IjYyM2IzNTQwZWRkZGM0ZGNlM2RlYjE0MiIsImlhdCI6MTY0ODA0Nzg0NiwiZXhwIjoxNjQ4MDQ4NDQ2fQ.-Wc5u9s5Ld9UGb9Sn4GGEO-MNjmQICc8bUOdFzd08zc
 
 {
-    "title": "subreddit 1",
+    "title": "subreddit_1",
     "titleDescription": "subreddit 1 title description"
 }

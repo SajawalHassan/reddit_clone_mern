@@ -36,14 +36,32 @@ router.put("/edit/:id", authenticate, async (req, res) => {
     // Finding subreddit
     const subreddit = await Subreddit.findById(req.params.id);
 
-    // Making sure the user updating the subreddit is the owner
+    // Making sure the user is the owner
     if (subreddit.ownerId !== req.user._id)
-      return res.json("You are not the owner!");
+      return res.status(405).json("You are not the owner!");
 
     // Updating the subreddit
     await subreddit.updateOne({ $set: req.body });
 
     res.json("Subreddit info updated");
+  } catch (error) {
+    res.sendStatus(500);
+  }
+});
+
+router.delete("/delete/:id", authenticate, async (req, res) => {
+  try {
+    // Finding subreddit
+    const subreddit = await Subreddit.findById(req.params.id);
+
+    // Making sure the user is the owner
+    if (subreddit.ownerId !== req.user._id)
+      return res.status(405).json("You are not the owner!");
+
+    // Updating the subreddit
+    await subreddit.deleteOne();
+
+    res.json("Deleted subreddit");
   } catch (error) {
     res.sendStatus(500);
   }
