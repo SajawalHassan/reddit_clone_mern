@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const Subreddit = require("../models/Subreddit");
+const User = require("../models/User");
+
 const { authenticate } = require("../auth/authenticate");
 
 router.post("/create", authenticate, async (req, res) => {
@@ -62,6 +64,24 @@ router.delete("/delete/:id", authenticate, async (req, res) => {
     await subreddit.deleteOne();
 
     res.json("Deleted subreddit");
+  } catch (error) {
+    res.sendStatus(500);
+  }
+});
+
+router.put("/join/:id", authenticate, async (req, res) => {
+  try {
+    if (!req.user.joinedSubreddits.includes(req.params.id)) {
+      await User.findByIdAndUpdate(req.user._id, {
+        $push: { joinedSubreddits: req.params.id },
+      });
+    } else {
+      User.findByIdAndUpdate(req.user._id, {
+        $pull: { joinedSubreddits: req.params.id },
+      });
+    }
+
+    res.json("subreddit joined");
   } catch (error) {
     res.sendStatus(500);
   }

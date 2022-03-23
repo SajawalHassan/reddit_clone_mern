@@ -9,10 +9,6 @@ const { generateAccessToken } = require("../utils/generateAccessToken");
 
 router.post("/register", async (req, res) => {
   try {
-    // Making sure the username doesn't contain spaces
-    if (req.body.username.includes(" "))
-      return res.status(400).json("Username cannot contain spaces!");
-
     // Checking if the user already exists
     const user = await User.findOne({ email: req.body.email });
     if (user) return res.status(400).json("Email already exists!");
@@ -36,7 +32,7 @@ router.post("/register", async (req, res) => {
     // Saving new user into db
     await newUser.save();
 
-    res.json("Registered successfully!");
+    res.json(newUser);
   } catch (error) {
     res.sendStatus(500);
   }
