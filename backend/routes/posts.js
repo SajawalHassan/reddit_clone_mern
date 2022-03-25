@@ -97,11 +97,15 @@ router.put("/upvote/:id", authenticate, async (req, res) => {
     // Checking if the post isn't already upvoted
     if (!post.upvotes.includes(req.user._id)) {
       // Adding upvote
-      await post.updateOne({ $push: { upvotes: req.user._id } });
+      await post.updateOne({
+        $push: { upvotes: req.user._id },
+        $pull: { downvotes: req.user._id },
+      });
 
-      // Adding post id to the user upvoted posts
+      // Adding post id to the user upvoted posts and removing from the downvoted array
       await User.findByIdAndUpdate(req.user._id, {
         $push: { upvotedPosts: post._id },
+        $pull: { downvotedPosts: post._id },
       });
 
       return res.json("Post upvoted");
@@ -115,6 +119,41 @@ router.put("/upvote/:id", authenticate, async (req, res) => {
       });
 
       return res.json("Upvote removed");
+    }
+  } catch (error) {
+    res.sendStatus(500);
+  }
+});
+
+router.put("/downvote/:id", authenticate, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    // Checking if the post isn't already downvoted
+    if (!post.downvotes.includes(req.user._id)) {
+      // Adding downvote
+      await post.updateOne({
+        $push: { downvotes: req.user._id },
+        $pull: { upvotes: req.user._id },
+      });
+
+      // Adding post id to the user downvoted posts
+      await User.findByIdAndUpdate(req.user._id, {
+        $push: { downvotedPosts: post._id },
+        $pull: { upvotedPosts: post._id },
+      });
+
+      return res.json("Post downvoted");
+    } else {
+      // Removing upvote
+      await post.updateOne({ $pull: { downvotes: req.user._id } });
+
+      // Removing post id to the user downvoted posts
+      await User.findByIdAndUpdate(req.user._id, {
+        $pull: { downvotedPosts: post._id },
+      });
+
+      return res.json("Downvote removed");
     }
   } catch (error) {
     res.sendStatus(500);
