@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Post = require("../models/Post");
 const Subreddit = require("../models/Subreddit");
+const User = require("../models/User");
 
 const { authenticate } = require("../auth/authenticate");
 
@@ -84,6 +85,37 @@ router.post("/repost/:id", authenticate, async (req, res) => {
     await newPost.save();
 
     res.json("Post reposted");
+  } catch (error) {
+    res.sendStatus(500);
+  }
+});
+
+router.put("/upvote/:id", authenticate, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    // Checking if the post isn't already upvoted
+    if (!post.upvotes.includes(req.user._id)) {
+      // Adding upvote
+      await post.updateOne({ $push: { upvotes: req.user._id } });
+
+      // Adding post id to the user upvoted posts
+      await User.findByIdAndUpdate(req.user._id, {
+        $push: { upvotedPosts: post._id },
+      });
+
+      return res.json("Post upvoted");
+    } else {
+      // Removing upvote
+      await post.updateOne({ $pull: { upvotes: req.user._id } });
+
+      // Removing post id to the user upvoted posts
+      await User.findByIdAndUpdate(req.user._id, {
+        $pull: { upvotedPosts: post._id },
+      });
+
+      return res.json("Upvote removed");
+    }
   } catch (error) {
     res.sendStatus(500);
   }
