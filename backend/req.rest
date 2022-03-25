@@ -17,7 +17,7 @@ Content-Type: application/json
 
 ###
 
-post http://localhost:5000/comment/repost/623dc3f9a24f0e17954fb41c
+put http://localhost:5000/comment/downvote/623dc3f9a24f0e17954fb41c
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsImVtYWlsIjoiYm9iQGdtYWlsLmNvbSIsInByb2ZpbGVQaWMiOiIiLCJqb2luZWRTdWJyZWRkaXRzIjpbXSwia2FybWEiOjAsImRhdGUiOiIyMDIyLTAzLTI1VDEyOjExOjM5LjkzMVoiLCJfaWQiOiI2MjNkYjIxOTVlZTgwYWQxNTUyZTlhZDIiLCJpYXQiOjE2NDgyMTQ5OTksImV4cCI6MTY0ODIxNTU5OX0.875bJ0eCFhRL6rm2T2MBvhMwYvQsbaPYiCWPe0q53k4
 
