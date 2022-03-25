@@ -40,9 +40,9 @@ router.put("/edit/:id", authenticate, async (req, res) => {
       return res.status(403).json("You are not the owner!");
 
     // Editing post
-    const editedPost = await post.updateOne({ $set: req.body });
+    await post.updateOne({ $set: req.body });
 
-    res.json(editedPost);
+    res.json("Post updated");
   } catch (error) {
     res.sendStatus(500);
   }

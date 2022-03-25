@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const authRouter = require("./auth/auth");
 const subredditRouter = require("./routes/subreddits");
 const postRouter = require("./routes/posts");
+const commentRouter = require("./routes/comments");
 
 require("dotenv").config();
 
@@ -24,6 +25,7 @@ app.use(morgan("common"));
 app.use("/auth", authRouter);
 app.use("/subreddit", subredditRouter);
 app.use("/post", postRouter);
+app.use("/comment", commentRouter);
 
 // Connecting to database
 mongoose.connect(process.env.DB_ACCESS_KEY, () =>
