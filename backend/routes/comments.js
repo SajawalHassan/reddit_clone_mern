@@ -20,4 +20,22 @@ router.post("/create", authenticate, async (req, res) => {
   }
 });
 
+router.put("/edit/:id", authenticate, async (req, res) => {
+  try {
+    // Finding the comment
+    const comment = await Comment.findById(req.params.id);
+
+    // making sure the user is the owner
+    if (comment.ownerId !== req.user._id)
+      return res.status(403).json("You are not the owner");
+
+    // Updating the comment
+    await comment.updateOne({ $set: req.body });
+
+    res.json("Comment updated");
+  } catch (error) {
+    res.sendStatus(500);
+  }
+});
+
 module.exports = router;
