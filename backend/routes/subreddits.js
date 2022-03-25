@@ -40,7 +40,7 @@ router.put("/edit/:id", authenticate, async (req, res) => {
 
     // Making sure the user is the owner
     if (subreddit.ownerId !== req.user._id)
-      return res.status(405).json("You are not the owner!");
+      return res.status(403).json("You are not the owner!");
 
     // Updating the subreddit
     await subreddit.updateOne({ $set: req.body });

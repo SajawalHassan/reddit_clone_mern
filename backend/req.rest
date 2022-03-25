@@ -17,11 +17,11 @@ Content-Type: application/json
 
 ###
 
-post http://localhost:5000/post/create
+put http://localhost:5000/post/edit/623dae7e5bd8f88990c44296
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsImVtYWlsIjoiYm9iQGdtYWlsLmNvbSIsInByb2ZpbGVQaWMiOiIiLCJqb2luZWRTdWJyZWRkaXRzIjpbIjYyM2I0N2Q3MjRhNmRlZDdiZDZlNTAwYiJdLCJrYXJtYSI6MCwiZGF0ZSI6IjIwMjItMDMtMjNUMTY6MTQ6MjMuNjE3WiIsIl9pZCI6IjYyM2I0NzdkMjRhNmRlZDdiZDZlNTAwNCIsImlhdCI6MTY0ODIwOTI0NCwiZXhwIjoxNjQ4MjA5ODQ0fQ.95cSxFR4aEjnYcF0ylEdXMpfh11xr3FY2BATD8Fqpgc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsImVtYWlsIjoiYm9iQGdtYWlsLmNvbSIsInByb2ZpbGVQaWMiOiIiLCJqb2luZWRTdWJyZWRkaXRzIjpbIjYyM2I0N2Q3MjRhNmRlZDdiZDZlNTAwYiJdLCJrYXJtYSI6MCwiZGF0ZSI6IjIwMjItMDMtMjNUMTY6MTQ6MjMuNjE3WiIsIl9pZCI6IjYyM2I0NzdkMjRhNmRlZDdiZDZlNTAwNCIsImlhdCI6MTY0ODIxMDAxOCwiZXhwIjoxNjQ4MjEwNjE4fQ.dySQfTJ76Zl_17257w9cI4LFqEIcVUrJz37uPasw0aM
 
 {
-    "title": "memes",
+    "title": "Memes",
     "subredditId": "623c4995bbc85751de34c46f"
 }
