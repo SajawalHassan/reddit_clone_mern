@@ -17,7 +17,7 @@ Content-Type: application/json
 
 ###
 
-put http://localhost:5000/post/downvote/623db6f93e80952b80bc486c
+get http://localhost:5000/post/feed
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsImVtYWlsIjoiYm9iQGdtYWlsLmNvbSIsInByb2ZpbGVQaWMiOiIiLCJqb2luZWRTdWJyZWRkaXRzIjpbXSwia2FybWEiOjAsImRhdGUiOiIyMDIyLTAzLTI1VDEyOjExOjM5LjkzMVoiLCJfaWQiOiI2MjNkYjIxOTVlZTgwYWQxNTUyZTlhZDIiLCJpYXQiOjE2NDgyMTMzNTAsImV4cCI6MTY0ODIxMzk1MH0.6v82Aq7kcpFk6nlgI3bxz_K80BfFC7iPkvOAG2kQ0Ho
 
