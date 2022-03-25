@@ -56,4 +56,25 @@ router.delete("/delete/:id", authenticate, async (req, res) => {
   }
 });
 
+router.post("/repost/:id", authenticate, async (req, res) => {
+  try {
+    // Finding comment
+    const comment = await Comment.findById(req.params.id);
+
+    // Getting info for new post
+    const newComment = new Comment({
+      content: comment.content,
+      postId: comment.postId,
+      ownerId: req.user._id,
+    });
+
+    // Saving post
+    await newComment.save();
+
+    res.json(newComment);
+  } catch (error) {
+    res.sendStatus(500);
+  }
+});
+
 module.exports = router;
