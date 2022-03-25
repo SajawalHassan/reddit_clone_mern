@@ -35,13 +35,28 @@ router.put("/edit/:id", authenticate, async (req, res) => {
     const post = await Post.findById(req.params.id);
 
     if (post.ownerId !== req.user._id)
-      return res.status(403).json("Tou are not the owner!");
+      return res.status(403).json("You are not the owner!");
 
     const editedPost = await post.updateOne({ $set: req.body });
 
     res.json(editedPost);
   } catch (error) {
     res.sendStatus(500);
+  }
+});
+
+router.delete("/delete/:id", authenticate, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    if (post.ownerId !== req.user._id)
+      return res.status(403).json("You are not the owner!");
+
+    await post.deleteOne();
+
+    res.json("Post deleted");
+  } catch (error) {
+    res.status(500);
   }
 });
 

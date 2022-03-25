@@ -60,7 +60,7 @@ router.delete("/delete/:id", authenticate, async (req, res) => {
     if (subreddit.ownerId !== req.user._id)
       return res.status(405).json("You are not the owner!");
 
-    // Updating the subreddit
+    // Deleting the subreddit
     await subreddit.deleteOne();
 
     res.json("Deleted subreddit");
