@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Post = require("../models/Post");
 const Subreddit = require("../models/Subreddit");
 const User = require("../models/User");
+const Comment = require("../models/Comment");
 
 const { authenticate } = require("../auth/authenticate");
 
@@ -50,12 +51,16 @@ router.put("/edit/:id", authenticate, async (req, res) => {
 
 router.delete("/delete/:id", authenticate, async (req, res) => {
   try {
-    // Finding post
+    // Finding post and comments related to post
     const post = await Post.findById(req.params.id);
+    const relatedComments = await Comment.find({ postId: req.params.id });
 
     // Making sure the user is the owner
     if (post.ownerId !== req.user._id)
       return res.status(403).json("You are not the owner!");
+
+    // Deleting all comments related to post
+    relatedComments.forEach(async (object) => await object.deleteOne());
 
     // Deleting post
     await post.deleteOne();
