@@ -57,17 +57,14 @@ router.delete("/delete/:id", authenticate, async (req, res) => {
   try {
     // Finding subreddit and all posts related to said subreddit
     const subreddit = await Subreddit.findById(req.params.id);
-    const relatedPosts = await Post.find({ subredditId: req.params.id });
 
     // Making sure the user is the owner
     if (subreddit.ownerId !== req.user._id)
       return res.status(405).json("You are not the owner!");
 
-    // Deleting all posts related to subreddit
-    relatedPosts.forEach(async (object) => await object.deleteOne());
-
-    // Deleting the subreddit
+    // Deleting the subreddit and all posts related to subreddit
     await subreddit.deleteOne();
+    await Post.deleteMany({ subredditId: req.params.id });
 
     res.json("Deleted subreddit");
   } catch (error) {

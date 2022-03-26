@@ -17,7 +17,7 @@ Content-Type: application/json
 
 ###
 
-delete http://localhost:5000/subreddit/delete/623e9d2927fe8f92e668a91b
+get http://localhost:5000/profile/me
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsImVtYWlsIjoiYm9iQGdtYWlsLmNvbSIsInByb2ZpbGVQaWMiOiIiLCJqb2luZWRTdWJyZWRkaXRzIjpbXSwia2FybWEiOjAsImRhdGUiOiIyMDIyLTAzLTI1VDEyOjExOjM5LjkzMVoiLCJfaWQiOiI2MjNkYjIxOTVlZTgwYWQxNTUyZTlhZDIiLCJpYXQiOjE2NDgyNzA1MTksImV4cCI6MTY0ODI3MTExOX0.T45ApzF4Yw9kG-50gVIixybx4zqRHD0i155YV1PBW_4
 
