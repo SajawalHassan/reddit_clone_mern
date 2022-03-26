@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
-const { registerValidation } = require("../utils/validation");
+const { userValidation } = require("../utils/validation");
 const { generateAccessToken } = require("../utils/generateAccessToken");
 const { authenticate } = require("./authenticate");
 
@@ -15,7 +15,7 @@ router.post("/register", async (req, res) => {
     if (user) return res.status(400).json("Email already exists!");
 
     // Validating info
-    const { error } = registerValidation(req.body);
+    const { error } = userValidation(req.body);
     if (error) return res.status(400).json(error.details[0].message);
 
     // Hashing passwords

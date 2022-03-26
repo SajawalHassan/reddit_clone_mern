@@ -1,10 +1,10 @@
 const joi = require("joi");
 
-module.exports.registerValidation = (data) => {
+module.exports.userValidation = (data) => {
   const schema = joi.object({
-    username: joi.string().min(3).max(255).required(),
-    email: joi.string().min(3).max(255).email().required(),
-    password: joi.string().min(8).max(255).required(),
+    username: joi.string().min(3).max(255),
+    email: joi.string().min(3).max(255).email(),
+    password: joi.string().min(8).max(255),
   });
 
   return schema.validate(data);
