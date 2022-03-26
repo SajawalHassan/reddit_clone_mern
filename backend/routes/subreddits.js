@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Subreddit = require("../models/Subreddit");
 const User = require("../models/User");
+const Post = require("../models/Post");
 
 const { authenticate } = require("../auth/authenticate");
 
@@ -28,7 +29,7 @@ router.post("/create", authenticate, async (req, res) => {
 
     res.json(newSubreddit);
   } catch (error) {
-    console.log(error);
+    if (error._message) return res.status(500).json(error._message);
     res.sendStatus(500);
   }
 });
@@ -47,14 +48,19 @@ router.put("/edit/:id", authenticate, async (req, res) => {
 
     res.json("Subreddit info updated");
   } catch (error) {
+    if (error._message) return res.status(500).json(error._message);
     res.sendStatus(500);
   }
 });
 
 router.delete("/delete/:id", authenticate, async (req, res) => {
   try {
-    // Finding subreddit
+    // Finding subreddit and all posts related to said subreddit
     const subreddit = await Subreddit.findById(req.params.id);
+    const relatedPosts = await Post.find({ subredditId: req.params.id });
+
+    // Deleting all posts related to subreddit
+    relatedPosts.forEach(async (object) => await object.deleteOne());
 
     // Making sure the user is the owner
     if (subreddit.ownerId !== req.user._id)
@@ -65,24 +71,33 @@ router.delete("/delete/:id", authenticate, async (req, res) => {
 
     res.json("Deleted subreddit");
   } catch (error) {
+    if (error._message) return res.status(500).json(error._message);
     res.sendStatus(500);
   }
 });
 
 router.put("/join/:id", authenticate, async (req, res) => {
   try {
+    const subreddit = await Subreddit.findById(req.params.id);
+
+    // Checking if the user hasn't already joined
     if (!req.user.joinedSubreddits.includes(req.params.id)) {
-      await User.findByIdAndUpdate(req.user._id, {
+      // Adding subreddit id to user's joined subreddits
+      await User.findByIdAndUpdate(subreddit._id, {
         $push: { joinedSubreddits: req.params.id },
       });
+
+      return res.json("Joined subreddit");
     } else {
-      User.findByIdAndUpdate(req.user._id, {
+      // Removing subreddit id from user's joined subreddits
+      User.findByIdAndUpdate(subreddit._id, {
         $pull: { joinedSubreddits: req.params.id },
       });
-    }
 
-    res.json("subreddit joined");
+      return res.json("Left subreddit");
+    }
   } catch (error) {
+    if (error._message) return res.status(500).json(error._message);
     res.sendStatus(500);
   }
 });
@@ -94,6 +109,7 @@ router.get("/feed", async (req, res) => {
 
     res.json(subreddits);
   } catch (error) {
+    if (error._message) return res.status(500).json(error._message);
     res.sendStatus(500);
   }
 });

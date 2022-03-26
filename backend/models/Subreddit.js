@@ -19,7 +19,7 @@ const subredditSchema = mongoose.Schema({
   },
   subredditPic: {
     type: String,
-    default: "",
+    required: true,
   },
   description: {
     type: String,

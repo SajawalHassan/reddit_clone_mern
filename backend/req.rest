@@ -17,11 +17,11 @@ Content-Type: application/json
 
 ###
 
-put http://localhost:5000/comment/downvote/623e8a34c6d73e2f9d618281
+delete http://localhost:5000/subreddit/delete/623e9d2927fe8f92e668a91b
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsImVtYWlsIjoiYm9iQGdtYWlsLmNvbSIsInByb2ZpbGVQaWMiOiIiLCJqb2luZWRTdWJyZWRkaXRzIjpbXSwia2FybWEiOjAsImRhdGUiOiIyMDIyLTAzLTI1VDEyOjExOjM5LjkzMVoiLCJfaWQiOiI2MjNkYjIxOTVlZTgwYWQxNTUyZTlhZDIiLCJpYXQiOjE2NDgyNjU3NzMsImV4cCI6MTY0ODI2NjM3M30.a0H2qtWhSlihoizG5PJWYp5OIqfU9aGEXhz1PMQR6Lo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsImVtYWlsIjoiYm9iQGdtYWlsLmNvbSIsInByb2ZpbGVQaWMiOiIiLCJqb2luZWRTdWJyZWRkaXRzIjpbXSwia2FybWEiOjAsImRhdGUiOiIyMDIyLTAzLTI1VDEyOjExOjM5LjkzMVoiLCJfaWQiOiI2MjNkYjIxOTVlZTgwYWQxNTUyZTlhZDIiLCJpYXQiOjE2NDgyNzA1MTksImV4cCI6MTY0ODI3MTExOX0.T45ApzF4Yw9kG-50gVIixybx4zqRHD0i155YV1PBW_4
 
 {
-    "content": "This is the first comment",
-    "postId": "623db6f93e80952b80bc486c"
+    "title": "post 2",
+    "subredditId": "623e9d2927fe8f92e668a91b"
 }
