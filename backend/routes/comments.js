@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Comment = require("../models/Comment");
+const User = require("../models/User");
 
 const { authenticate } = require("../auth/authenticate");
 
@@ -89,10 +90,16 @@ router.put("/upvote/:id", authenticate, async (req, res) => {
         $pull: { downvotes: req.user._id },
       });
 
+      // Adding 1 karma to user
+      await User.findByIdAndUpdate(comment.ownerId, { $inc: { karma: 1 } });
+
       return res.json("comment upvoted");
     } else {
       // Removing upvote
       await comment.updateOne({ $pull: { upvotes: req.user._id } });
+
+      // Removing 1 karma from user
+      await User.findByIdAndUpdate(comment.ownerId, { $inc: { karma: -1 } });
 
       return res.json("Upvote removed");
     }
@@ -113,10 +120,16 @@ router.put("/downvote/:id", authenticate, async (req, res) => {
         $pull: { upvotes: req.user._id },
       });
 
+      // Removing 1 karma from user
+      await User.findByIdAndUpdate(comment.ownerId, { $inc: { karma: -1 } });
+
       return res.json("comment downvoted");
     } else {
       // Removing downvote
       await comment.updateOne({ $pull: { downvotes: req.user._id } });
+
+      // Adding 1 karma to user
+      await User.findByIdAndUpdate(comment.ownerId, { $inc: { karma: 1 } });
 
       return res.json("Downvote removed");
     }
