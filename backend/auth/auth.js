@@ -35,7 +35,7 @@ router.post("/register", async (req, res) => {
 
     res.json(newUser);
   } catch (error) {
-    if (error._message) return res.status(500).json(error._message);
+    if (error._message) return res.status(500).json(error.message);
     res.sendStatus(500);
   }
 });
@@ -79,7 +79,7 @@ router.post("/login", async (req, res) => {
 
     res.json({ accessToken: accessToken, refreshToken: refreshToken });
   } catch (error) {
-    if (error._message) return res.status(500).json(error._message);
+    if (error._message) return res.status(500).json(error.message);
     res.sendStatus(500);
   }
 });
@@ -116,7 +116,7 @@ router.post("/refresh", async (req, res) => {
       res.json({ accessToken: accessToken });
     });
   } catch (error) {
-    if (error._message) return res.status(500).json(error._message);
+    if (error._message) return res.status(500).json(error.message);
     res.sendStatus(500);
   }
 });
@@ -127,7 +127,7 @@ router.delete("/logout", authenticate, async (req, res) => {
 
     res.json("Logged out!");
   } catch (error) {
-    if (error._message) return res.status(500).json(error._message);
+    if (error._message) return res.status(500).json(error.message);
     res.sendStatus(500);
   }
 });
