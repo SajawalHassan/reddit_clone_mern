@@ -27,7 +27,7 @@ router.post("/create", authenticate, async (req, res) => {
     res.json(newPost);
   } catch (error) {
     console.log(error);
-    if (error._message) return res.status(500).json(error._message);
+    if (error._message) return res.status(500).json(error.message);
     res.sendStatus(500);
   }
 });
@@ -46,7 +46,7 @@ router.put("/edit/:id", authenticate, async (req, res) => {
 
     res.json("Post updated");
   } catch (error) {
-    if (error._message) return res.status(500).json(error._message);
+    if (error._message) return res.status(500).json(error.message);
     res.sendStatus(500);
   }
 });
@@ -90,7 +90,7 @@ router.post("/repost/:id", authenticate, async (req, res) => {
 
     res.json("Post reposted");
   } catch (error) {
-    if (error._message) return res.status(500).json(error._message);
+    if (error._message) return res.status(500).json(error.message);
     res.sendStatus(500);
   }
 });
@@ -132,7 +132,7 @@ router.put("/upvote/:id", authenticate, async (req, res) => {
       return res.json("Upvote removed");
     }
   } catch (error) {
-    if (error._message) return res.status(500).json(error._message);
+    if (error._message) return res.status(500).json(error.message);
     res.sendStatus(500);
   }
 });
@@ -174,7 +174,7 @@ router.put("/downvote/:id", authenticate, async (req, res) => {
       return res.json("Downvote removed");
     }
   } catch (error) {
-    if (error._message) return res.status(500).json(error._message);
+    if (error._message) return res.status(500).json(error.message);
     res.sendStatus(500);
   }
 });
@@ -186,7 +186,7 @@ router.get("/feed", authenticate, async (req, res) => {
 
     res.json(posts);
   } catch (error) {
-    if (error._message) return res.status(500).json(error._message);
+    if (error._message) return res.status(500).json(error.message);
     res.sendStatus(500);
   }
 });

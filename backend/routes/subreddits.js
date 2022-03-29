@@ -29,7 +29,7 @@ router.post("/create", authenticate, async (req, res) => {
 
     res.json(newSubreddit);
   } catch (error) {
-    if (error._message) return res.status(500).json(error._message);
+    if (error._message) return res.status(500).json(error.message);
     res.sendStatus(500);
   }
 });
@@ -48,7 +48,7 @@ router.put("/edit/:id", authenticate, async (req, res) => {
 
     res.json("Subreddit info updated");
   } catch (error) {
-    if (error._message) return res.status(500).json(error._message);
+    if (error._message) return res.status(500).json(error.message);
     res.sendStatus(500);
   }
 });
@@ -68,7 +68,7 @@ router.delete("/delete/:id", authenticate, async (req, res) => {
 
     res.json("Deleted subreddit");
   } catch (error) {
-    if (error._message) return res.status(500).json(error._message);
+    if (error._message) return res.status(500).json(error.message);
     res.sendStatus(500);
   }
 });
@@ -94,7 +94,7 @@ router.put("/join/:id", authenticate, async (req, res) => {
       return res.json("Left subreddit");
     }
   } catch (error) {
-    if (error._message) return res.status(500).json(error._message);
+    if (error._message) return res.status(500).json(error.message);
     res.sendStatus(500);
   }
 });
@@ -106,7 +106,7 @@ router.get("/feed", async (req, res) => {
 
     res.json(subreddits);
   } catch (error) {
-    if (error._message) return res.status(500).json(error._message);
+    if (error._message) return res.status(500).json(error.message);
     res.sendStatus(500);
   }
 });
