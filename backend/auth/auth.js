@@ -42,6 +42,11 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
+    // Making sure the req.body isn't null
+    if (!req.body.email || !req.body.password) {
+      return res.status(400).json("Please fill out all fields!");
+    }
+
     // Making sure the email isn't invalid
     const user = await User.findOne({ email: req.body.email });
     if (!user) return res.status(400).json("Invalid email or password");
@@ -54,8 +59,8 @@ router.post("/login", async (req, res) => {
       username: user.username,
       email: user.email,
       profilePic: user.profilePic,
-      upVotedPosts: user.upVotedPosts,
-      downVotedPosts: user.downVotedPosts,
+      upVotedPosts: user.upvotedPosts,
+      downVotedPosts: user.downvotedPosts,
       joinedSubreddits: user.joinedSubreddits,
       karma: user.karma,
       date: user.date,
@@ -77,7 +82,7 @@ router.post("/login", async (req, res) => {
     // Saving refreshToken
     await newRefreshToken.save();
 
-    res.json({ accessToken: accessToken, refreshToken: refreshToken });
+    res.json({ accessToken: accessToken, refreshToken: refreshToken, payload });
   } catch (error) {
     if (error._message) return res.status(500).json(error.message);
     res.sendStatus(500);

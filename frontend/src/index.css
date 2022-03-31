@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .auth-input {
+    @apply pr-2 pl-3 py-3 bg-gray-50 w-full rounded-sm outline-none text-slate-700 ring-[1.5px] ring-outlineColor focus:ring-blue-500;
+  }
+
+  .header-auth-btn {
+    @apply px-4 py-0.5 md:px-6 lg:px-10 rounded-full font-bold truncate transition-all duration-200 cursor-pointer;
+  }
+
+  .flex-item {
+    @apply flex items-center;
+  }
+
+  .link {
+    @apply text-blue-500 hover:underline cursor-pointer;
+  }
+}
