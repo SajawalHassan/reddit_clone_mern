@@ -3,6 +3,7 @@ const User = require("../models/User");
 const Post = require("../models/Post");
 const Subreddit = require("../models/Subreddit");
 const Comment = require("../models/Comment");
+const bcrypt = require("bcrypt");
 
 const { authenticate } = require("../auth/authenticate");
 const { userValidation } = require("../utils/validation");
@@ -21,17 +22,20 @@ router.get("/me", authenticate, async (req, res) => {
 
 router.put("/edit", authenticate, async (req, res) => {
   try {
-    // Finding user
-    const user = await User.findById(req.user._id);
-
     // Validating user info
     const { error } = userValidation(req.body);
     if (error) return res.status(400).json(error.details[0].message);
 
-    // Updating the user
-    await user.updateOne({ $set: req.body });
+    // Hashing password
+    if (req.body.password) {
+      const salt = await bcrypt.genSalt(10);
+      req.body.password = await bcrypt.hash(req.body.password, salt);
+    }
 
-    res.json("User updated");
+    // Updating user
+    await User.findOneAndUpdate(req.user._id, { $set: req.body });
+
+    res.send("User updated");
   } catch (error) {
     if (error._message) return res.status(500).json(error._message);
     res.sendStatus(500);
