@@ -20,6 +20,18 @@ router.get("/me", authenticate, async (req, res) => {
   }
 });
 
+router.get("/me/posts", authenticate, async (req, res) => {
+  try {
+    // Getting posts
+    const posts = await Post.find({ ownerId: req.user._id });
+
+    res.json(posts);
+  } catch (error) {
+    if (error._message) return res.status(500).json(error._message);
+    res.sendStatus(500);
+  }
+});
+
 router.get("/view/:id", async (req, res) => {
   try {
     // Finding user
