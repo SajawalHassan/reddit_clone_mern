@@ -20,6 +20,18 @@ router.get("/me", authenticate, async (req, res) => {
   }
 });
 
+router.get("/view/:id", async (req, res) => {
+  try {
+    // Finding user
+    const user = await User.findById(req.params.id);
+
+    res.json(user);
+  } catch (error) {
+    if (error._message) return res.status(500).json(error._message);
+    res.sendStatus(500);
+  }
+});
+
 router.put("/edit", authenticate, async (req, res) => {
   try {
     // Validating user info
