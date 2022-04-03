@@ -7,19 +7,20 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:5000/auth/login
+POST http://localhost:5000/auth/register
 Content-Type: application/json
 
 {
-    "email": "bob@gmail.com",
-    "password": "bob@1234"
+    "username": "kyle",
+    "email": "kyle@gmail.com",
+    "password": "kyle@1234"
 }
 
 ###
 
-put http://localhost:5000/profile/edit
+get http://localhost:5000/profile/me/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsImVtYWlsIjoiYm9iQGdtYWlsLmNvbSIsInByb2ZpbGVQaWMiOiIiLCJ1cFZvdGVkUG9zdHMiOltdLCJkb3duVm90ZWRQb3N0cyI6W10sImpvaW5lZFN1YnJlZGRpdHMiOltdLCJrYXJtYSI6MCwiZGF0ZSI6IjIwMjItMDMtMzFUMDQ6MDg6MTYuODQyWiIsIl9pZCI6IjYyNDUzNDQ5OTZlMWMzMzkzY2IzNGU0OCIsImlhdCI6MTY0ODkxNzkyNCwiZXhwIjoxNjQ4OTE4NTI0fQ.sRC-QVBmM_POJRQDiJQSEabILF2TTSh2fKoeDHHdJeE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvYiIsImVtYWlsIjoiYm9iQGdtYWlsLmNvbSIsInByb2ZpbGVQaWMiOiIiLCJqb2luZWRTdWJyZWRkaXRzIjpbXSwia2FybWEiOjAsImRhdGUiOiIyMDIyLTAzLTMxVDA0OjA4OjE2Ljg0MloiLCJfaWQiOiI2MjQ1MzQ0OTk2ZTFjMzM5M2NiMzRlNDgiLCJpYXQiOjE2NDg5MTkwNDksImV4cCI6MTY0ODkxOTY0OX0.kpZW_Wa3ttwyqleHzyF72Cjg7T91_yYAeXreHUPrLVg
 
 {
     "password": "bob@1234"

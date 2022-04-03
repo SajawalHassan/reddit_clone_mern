@@ -18,6 +18,8 @@ router.post("/create", authenticate, async (req, res) => {
       picContent: req.body.picContent,
       subredditId: req.body.subredditId,
       subredditPic: subreddit.subredditPic,
+      NSFW: req.body.NSFW,
+      spoiler: req.body.spoiler,
       ownerId: req.user._id,
     });
 
